@@ -1,65 +1,62 @@
 # 🔐 End-to-End Identity Lifecycle Automation and Security  
 
-This lab demonstrates how I automated **user onboarding, offboarding, access reviews, and MFA enforcement** in Azure Active Directory using **PowerShell + Microsoft Graph**.  
-
----
-
+<p align="center">  
+This lab demonstrates how I automated <strong>user onboarding, offboarding, access reviews, and MFA enforcement</strong> in Azure Active Directory using <strong>PowerShell + Microsoft Graph</strong>.  
+</p>  
 
 🖼️ *Azure Active Directory Overview Page — showing tenant name + AAD blade open*  
-<img width="1920" height="958" alt="Screenshot (45)" src="https://github.com/user-attachments/assets/f977f72c-1f96-4ba2-a7cc-2f9a374b308c" />
-
-
----
+<p align="center">
+  <img width="806" height="402" alt="Screenshot (45)" src="https://github.com/user-attachments/assets/f977f72c-1f96-4ba2-a7cc-2f9a374b308c" />
+</p>
 
 ## 2️⃣ Install Required PowerShell Modules  
 
-✅ I installed the required PowerShell modules (`AzureAD` and `Microsoft.Graph`) to interact with Azure AD.  
+<p align="center">  
+✅ I installed the required PowerShell modules (<code>AzureAD</code> and <code>Microsoft.Graph</code>) to interact with Azure AD.  
+</p>
 
-📸 **Screenshot 2:** PowerShell window showing successful installation  
-<img width="1920" height="956" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/a4615676-678b-44cd-915f-83e295401f89" />
-
-
----
+<p align="center">
+  <img width="806" height="402" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/a4615676-678b-44cd-915f-83e295401f89" />
+</p>
 
 ## 3️⃣ Register Azure AD App for Automation  
 
-✅ I registered an app called **IdentityFlow** in Azure AD, which I used for scripting.  
+<p align="center">  
+✅ I registered an app called <strong>IdentityFlow</strong> in Azure AD, which I used for scripting.  
 I granted it permissions to manage users and groups so my automation scripts could run securely.  
+</p>
 
-📸 **Screenshot 3:** App Registration Overview (IdentityFlow + Client ID)  
-<img width="1920" height="960" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/b0824adb-beb3-42a0-9948-f940162f0c90" />
+<p align="center"><em>App Registration Overview (IdentityFlow + Client ID)</em></p>
+<p align="center">
+  <img width="806" height="402" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/b0824adb-beb3-42a0-9948-f940162f0c90" />
+</p>  
 
-📸 **Screenshot 4:** API Permissions showing Graph permissions with admin consent  
-<img width="1920" height="954" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/938a077f-61b7-4ebc-9172-80b5dae96a6c" />
-
----
-
-## 8️⃣ Create Groups for RBAC  
-
-✅ I set up **dynamic groups** for Sales, IT, and HR so membership was handled automatically.  
-This way, I didn’t need to manually assign users to groups — Azure AD handled it for me.  
-
-📸 **Screenshot 10:** Groups blade showing Sales, IT, and HR groups  
-<img width="1920" height="954" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/649df1bb-d0a7-4d69-9071-fb379cea0d63" />
-
----
+<p align="center"><em>API Permissions with admin consent</em></p>
+<p align="center">
+  <img width="806" height="402" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/938a077f-61b7-4ebc-9172-80b5dae96a6c" />
+</p>  
 
 ## 4️⃣ Create Excel File with User Data  
 
-✅ I built an **Excel file (`users.csv`)** that contained user details such as UPN, display name, department, job title, manager, and status.  
+<p align="center">  
+✅ I built an <strong>Excel file (<code>users.csv</code>)</strong> that contained user details such as UPN, display name, department, job title, manager, and status.  
 This served as the input for both onboarding and offboarding.  
+</p>
 
-📸 **Screenshot 5:** Excel file with user records  
-<img width="763" height="378" alt="Screen Shot 2025-09-08 at 7 30 37 PM" src="https://github.com/user-attachments/assets/fb891bcd-00a2-4ea0-9536-505b70bf9cca" />
-
----
+<p align="center">
+  <img width="806" height="402" alt="Screen Shot 2025-09-08 at 7 30 37 PM" src="https://github.com/user-attachments/assets/fb891bcd-00a2-4ea0-9536-505b70bf9cca" />
+</p>
 
 ## 5️⃣ Automate User Onboarding  
 
-✅ Using my script, I onboarded new accounts from the Excel file where `Status = Active`.  
+<p align="center">  
+✅ Using my script, I onboarded new accounts from the Excel file where <code>Status = Active</code>.  
 Dynamic group rules automatically placed them into their correct RBAC groups.  
+</p>
 
-📸 **Screenshot 6:**  PowerShell script execution creating users  
+<p align="center"><em>PowerShell script execution creating users</em></p>
+
+```powershell
 # Bulk create users from CSV (automated onboarding)
 Import-Csv "users.csv" | ForEach-Object {
     # Create new user account
@@ -78,61 +75,83 @@ Import-Csv "users.csv" | ForEach-Object {
             -RefObjectId $user.ObjectId
     }
 }
+```
+<p align="center"><em>Azure AD Users view showing new accounts (Jane, Alice, Mike, Bob)</em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/520f2786-c0e3-46a8-ac82-2cda7e42fe96" />  
+</p>
 
+## 6️⃣ Automate User Offboarding
 
-📸 **Screenshot 7:** Azure AD Users view showing new accounts (Jane, Alice, Mike, Bob)  
-<img width="1920" height="950" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/520f2786-c0e3-46a8-ac82-2cda7e42fe96" />
-
-
----
-
-## 6️⃣ Automate User Offboarding  
-
-✅ I disabled accounts where `Status = Inactive` in the Excel file.  
+<p align="center">  
+✅ I disabled accounts where <code>Status = Inactive</code> in the Excel file.  
 Since groups were dynamic, those users were automatically removed from group membership.  
+</p>
 
-📸 **Screenshot 8:** Confirmation after automating Inactive accounts(Bob Smith)  
-<img width="1920" height="951" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/8f2ec78f-dd98-4bb9-a14d-13449f281436" />
+<p align="center"><em>Confirmation after automating inactive accounts (Bob Smith)</em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/8f2ec78f-dd98-4bb9-a14d-13449f281436" />  
+</p>
 
----
+## 7️⃣ Generate Access Review Report
 
-## 7️⃣ Generate Access Review Report  
-
+<p align="center">  
 ✅ I exported a report of all users, their status, and their group memberships into a CSV for auditing.  
+</p>
 
-📸 **Screenshot 9:** Using Script to export `access_review_report.csv` 
-<img width="1920" height="962" alt="Screenshot (61)" src="https://github.com/user-attachments/assets/1f66f29d-275e-4d5e-86e6-cec0cd8ffa57" />
+<p align="center"><em>Exporting <code>access_review_report.csv</code></em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (61)" src="https://github.com/user-attachments/assets/1f66f29d-275e-4d5e-86e6-cec0cd8ffa57" />  
+</p>  
 
-📸 **Screenshot 10:** Excel view of `access_review_report.csv` showing accounts and groups
-<img width="820" height="400" alt="Screen Shot 2025-09-08 at 7 31 58 PM" src="https://github.com/user-attachments/assets/03df3225-4232-48e3-b0a0-94949ccb1b99" />
+<p align="center"><em>Excel view of <code>access_review_report.csv</code></em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screen Shot 2025-09-08 at 7 31 58 PM" src="https://github.com/user-attachments/assets/03df3225-4232-48e3-b0a0-94949ccb1b99" />  
+</p>
 
----
+## 8️⃣ Create Groups for RBAC
 
-## 9️⃣ Configure Conditional Access + MFA  
+<p align="center">  
+✅ I set up <strong>dynamic groups</strong> for Sales, IT, and HR so membership was handled automatically.  
+This way, I didn’t need to manually assign users to groups — Azure AD handled it for me.  
+</p>
 
-✅ I built a Conditional Access policy requiring **MFA for members of the Sales group**.  
+<p align="center"><em>Groups blade showing Sales, IT, and HR groups</em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/649df1bb-d0a7-4d69-9071-fb379cea0d63" />  
+</p>
 
-📸 **Screenshot 11:** Conditional Access policy setup with “Require MFA”  
-<img width="1920" height="956" alt="Screenshot (63)" src="https://github.com/user-attachments/assets/612fb928-59d2-485b-841f-0e2c3fe27dcc" />
+## 9️⃣ Configure Conditional Access + MFA
 
----
+<p align="center">  
+✅ I built a Conditional Access policy requiring <strong>MFA for members of the Sales group</strong>.  
+</p>
 
-## 🔟 Test Conditional Access / MFA  
+<p align="center"><em>Conditional Access policy setup with “Require MFA”</em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (63)" src="https://github.com/user-attachments/assets/612fb928-59d2-485b-841f-0e2c3fe27dcc" />  
+</p>
 
-✅ I signed in as **Jane Doe** to verify that MFA was correctly triggered.  
+## 🔟 Test Conditional Access / MFA
 
-📸 **Screenshot 12:** Login screen showing MFA challenge  
-<img width="1920" height="956" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/9850d657-ceda-454d-a3e8-ab24b056b06b" />
+<p align="center">  
+✅ I signed in as <strong>Jane Doe</strong> to verify that MFA was correctly triggered.  
+</p>
 
-<img width="1920" height="956" alt="Screenshot (67)" src="https://github.com/user-attachments/assets/eed3c3a5-343c-45ee-a0ab-4a908db0ad21" />
+<p align="center"><em>Jane Doe signing in + MFA challenge</em></p>  
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/9850d657-ceda-454d-a3e8-ab24b056b06b" />  
+</p>  
 
----
+<p align="center">  
+  <img width="806" height="402" alt="Screenshot (67)" src="https://github.com/user-attachments/assets/eed3c3a5-343c-45ee-a0ab-4a908db0ad21" />  
+</p>
 
-# 🎯 Final Outcome  
+# 🎯 Final Outcome
 
 By the end of this lab, I had:  
+
 - 👤 Automated **user onboarding & offboarding** with Excel + PowerShell  
 - 👥 Implemented **dynamic RBAC groups** for HR, IT, and Sales  
 - 📊 Generated an **access review report** of users and group memberships  
 - 🔐 Enforced **MFA** with Conditional Access  
-
