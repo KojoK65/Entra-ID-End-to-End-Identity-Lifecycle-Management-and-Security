@@ -45,8 +45,8 @@ I granted it permissions to manage users and groups so my automation scripts cou
 This served as the input for both onboarding and offboarding.  
 </p>
 
-<p align="center">
-  <img width="675" height="375" alt="Screen Shot 2025-09-08 at 7 30 37 PM" src="https://github.com/user-attachments/assets/fb891bcd-00a2-4ea0-9536-505b70bf9cca" />
+<p align="center">  
+  <img width="675" height="375" alt="Screen Shot 2025-09-08 at 7 31 58 PM" src="https://github.com/user-attachments/assets/03df3225-4232-48e3-b0a0-94949ccb1b99" />  
 </p>
 
 ## 5️⃣ Automate User Onboarding  
@@ -107,8 +107,9 @@ Since groups were dynamic, those users were automatically removed from group mem
 </p>  
 
 <p align="center"><em>Excel view of <code>access_review_report.csv</code></em></p>  
-<p align="center">  
-  <img width="675" height="375" alt="Screen Shot 2025-09-08 at 7 31 58 PM" src="https://github.com/user-attachments/assets/03df3225-4232-48e3-b0a0-94949ccb1b99" />  
+
+<p align="center">
+  <img width="675" height="375" alt="Screen Shot 2025-09-08 at 7 30 37 PM" src="https://github.com/user-attachments/assets/fb891bcd-00a2-4ea0-9536-505b70bf9cca" />
 </p>
 
 ## 8️⃣ Create Groups for RBAC
